@@ -4,14 +4,14 @@ import Styled from 'styled-components';
 // 프로젝트 내용
 function Project() {
     return (
-        <Container>
-            <h1>Main</h1>
-        </Container>
+        <PJContainer>
+            <></>
+        </PJContainer>
     );
 }
 
 // styled-components 사용
-const Container = Styled.div`
+const PJContainer = Styled.div`
 `
 ;
 
