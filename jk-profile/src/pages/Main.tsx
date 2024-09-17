@@ -3,14 +3,14 @@ import Styled from 'styled-components';
 
 function Main() {
     return (
-        <Container>
+        <MainContainer>
             <h1>Main</h1>
-        </Container>
+        </MainContainer>
     );
 }
 
 // styled-components 사용
-const Container = Styled.div`
+const MainContainer = Styled.div`
 `
 ;
 

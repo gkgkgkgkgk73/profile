@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import Styled from 'styled-components';
+import { Flower } from 'css-spinners-react';
 
 function Loading() {
     return (
-        <Container>
-            Loading..
-        </Container>
+        <Flower />
     );
 }
-
-// styled-components 사용
-const Container = Styled.div`
-
-`
-;
 
 export default Loading;
