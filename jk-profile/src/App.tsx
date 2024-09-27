@@ -13,8 +13,9 @@ function App() {
     <Suspense fallback={<Loading/>}> 
       <BrowserRouter>
         <Routes>
-           <Route path = "/" element={<CareerList  />} />
+           <Route path = "/" element={<Main  />} />
            <Route path = "/introduction" element={<Introduction />}/>
+           <Route path = "/careerlist" element={<CareerList />}/>
         </Routes>
       </BrowserRouter>
     </Suspense>
