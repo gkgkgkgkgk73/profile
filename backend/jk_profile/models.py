@@ -6,6 +6,9 @@ class Career(models.Model):
     description = models.JSONField()
     role = models.CharField(max_length = 200)
     
+    def __str__(self):
+        return self.name
+    
 class Project(models.Model):
     name = models.CharField(max_length = 200)
     picture= models.JSONField()
@@ -15,3 +18,6 @@ class Project(models.Model):
     role = models.CharField(max_length = 200)
     period = models.CharField(max_length = 200)
     gain = models.CharField(max_length = 200)
+    
+    def __str__(self):
+        return self.name
