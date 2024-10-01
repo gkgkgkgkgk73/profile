@@ -20,9 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(dab&_%$(g%_qsc&(o8gr^7i73!1$d%l4d#8rw2h469rlbeqy='
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -32,7 +29,6 @@ ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'jk_profile.apps.JkProfileConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_celery_results',
     'rest_framework',
+    'jk_profile',
 ]
 
 MIDDLEWARE = [
@@ -129,12 +126,37 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Redis SETTINGS
 REDIS_HOST = os.getenv('REDIS_HOST', "redis")
 REDIS_PORT = os.getenv('REDIS_PORT', "6379")
-REDIS_PW = os.getenv('REDIS_PW', "")
 
 # CELERY SETTINGS
 
-CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
+# CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+CELERY_BROKER_URL = f'redis://localhost:{REDIS_PORT}/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+from dotenv import load_dotenv
+import os
+
+# SECURITY WARNING: keep the secret key used in production secret!
+env_path = BASE_DIR / '.env'
+load_dotenv(dotenv_path=env_path)
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
+# 레디스 캐시 사용
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

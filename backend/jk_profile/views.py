@@ -37,11 +37,22 @@ def multi(request):
     except Exception as e:
         return HttpResponse(f'Error: {str(e)}', status=403)
 
+from django.core.cache import cache
+
 def career(request):
+# get에 레디스 캐시 적용
     if request.method == 'GET':
-        career_list = Career.objects.all()
-        serializer = CareerSerializer(career_list)
-        return JsonResponse(serializer.data, status=200)
+        career_list = cache.get(f'careerlist')
+        if not career_list:
+            career_list = Career.objects.all()
+            try:
+                serializer = CareerSerializer(career_list, many=True)
+            except Exception as e:
+                return HttpResponse(status=404)
+            cache.set(f'careerllist', career_list)
+            return JsonResponse(serializer.data, status=200, safe=False)
+        else:
+            return JsonResponse(career_list, status=200, safe=False)
     elif request.method == 'POST':
         # json 데이터 처리
         data = json.loads(request.body)
@@ -51,6 +62,6 @@ def career(request):
         if serializer.is_valid():
             # 저장
             serializer.save()
-            return JsonResponse(serializer.data, status=200)
+            return JsonResponse(serializer.data, status=200, safe=False)
         else:
             return HttpResponse(status=403)

@@ -61,10 +61,10 @@ def test_index_view(client, mock_do_something):
 #     # Check if the content contains the timeout error message
 #     assert response.content == b'Error: Task timed out'
 
-# @pytest.mark.django_db
-# def test_get_career(client, mocker):
-#     response = client.get(reverse('career'))
-#     assert response.status_code == 200
+@pytest.mark.django_db
+def test_get_career(client, mocker):
+    response = client.get(reverse('career'))
+    assert response.status_code == 200
 
 @pytest.mark.django_db
 def test_post_career(mocker):
